@@ -1,2 +1,2 @@
 # baileydauterman.github.io
-website
+Resume website using bootstrap and Font Awesome Icons
