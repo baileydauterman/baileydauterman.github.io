@@ -150,10 +150,6 @@ body.scale-cv {
     padding-right: .5rem;
 }
 
-.scale-cv .references__container {
-    display: none;
-}
-
 .scale-cv .education__rounder, 
 .scale-cv .experience__rounder {
     width: 11px;

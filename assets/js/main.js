@@ -31,13 +31,12 @@ function scrollActive() {
 
     sections.forEach(current => {
         const sectionHeight = current.offsetHeight
-        const sectiontop = current.offsetTop - 50;
-        const sectionId = current.getAttribute('id')
+        const sectionTop = current.offsetTop - 50;
 
-        if(scrollY > sectiontop && scrollY <= sectiontop + sectionHeight) {
-            document.querySelectorAll('.nav__menu a[href*=' + sectionId + ']').classList.add('active-link')
+        if(scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+            document.querySelector('.nav__menu a[href*=' + current.getAttribute('id') + ']').classList.add('active-link')
         } else {
-            document.querySelectorAll('.nav__menu a[href*=' + sectionId + ']').classList.remove('active-link')
+            document.querySelector('.nav__menu a[href*=' + current.getAttribute('id') + ']').classList.remove('active-link')
         }
     })
 }
