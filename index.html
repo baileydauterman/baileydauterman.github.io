@@ -1,171 +1,347 @@
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Bailey Dauterman</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"/>
-    <link rel="icon" href=".\assets\terminal-solid.svg">
-  </head>
-  <body class="bg-dark">
-    <div class="container p-5">
-        <div class="row">
-            <div class="col-md-4 bg-dark text-white text-center py4">
-                <div class="header-left">
-                    <img src=".\assets\pfp_zoomed.jpg" alt="" class="img-thumbnail rounded-circle mb-2">
-                    <h1 class="display-5">Bailey Dauterman</h1>
-                    <h4 class="lead text-uppercase text-white-50-4 mb-3">Software Engineer</h4>
-                </div>
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-                <div>
-                    <h5 class="text-uppercase rounded bg-white text-dark py-2 rounded-pill">contact</h5>
+        <!--========== BOX ICONS ==========-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 
-                    <ul class="list-unstyled text-white-50 text-left">
-                        <li class="list-item">
-                            <i class="fas fa-mobile-alt p-2"></i>
-                            &nbsp;&nbsp;(419)-961-3145
+        <!--========== CSS ==========-->
+        <link rel="stylesheet" href="assets/css/styles.css">
+
+        <title>Bailey Dauterman</title>
+    </head>
+    <body>
+        <!--========== HEADER ==========-->
+        <header class="l-header" id="header">
+            <nav class="nav bd-container">
+                <a href="#" class="nav nav__logo">Dauterman</a>
+
+                <div class="nav__menu" id="nav-menu">
+                    <ul class="nav__list">
+                        <li class="nav__item">
+                            <a href="#home" class="nav__link active-link">
+                                <i class="bx bx-home nav__icon"></i>Home
+                            </a>
                         </li>
-                        <li class="list-item">
-                            <i class="fas fa-paper-plane p-2"></i>
-                            dauterman.bailey@gmail.com
-                        </li>
-                        <li class="list-item">
-                            <i class="fas fa-code-branch p-2"></i>
-                            &nbsp;github.com/baileydauterman
-                        </li>
-                        <li class="list-item">
-                            <i class="fas fa-map-marker-alt p-2"></i>
-                            &nbsp;Atlanta, GA 
-                        </li>
-                    </ul>
-                </div>
 
-                <div>
-                    <h5 class="text-uppercase rounded bg-white text-dark py-2 rounded-pill">skills</h5>
-                    <ul class="list text-white-50 text-left text-capitalize px-4">
-                        <li class="list-item p-1">Teamwork</li>
-                        <li class="list-item p-1">Leadership</li>
-                        <li class="list-item p-1">Analytical</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h5 class="text-uppercase rounded bg-white text-dark py-2 rounded-pill">education</h5>
-                    <ul class="list text-white-50 text-left text-capitalize px-4">
-                        <li class="list-item p-1">B.S. Management Information Systems and Computer Science, University of Dayton</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <a href="https://discordapp.com/users/373610540603277312" style="color: black;">
-                        <i class="fab fa-discord fa-2x p-2"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/in/baileydauterman/" style="color: black;">
-                        <i class="fab fa-linkedin fa-2x p-2"></i>
-                    </a>
-                    <a href="https://github.com/baileydauterman" style="color: black;">
-                        <i class="fab fa-github fa-2x p-2"></i>
-                    </a>
-                    <a href="#" style="color: black;">
-                        <i class="fab fa-apple-pay fa-2x p-2"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-8 bg-light rounded text-dark p-4">
-                <!-- <div class="header-right">
-                    <h4 class="text-uppercase">profile</h4>
-                    <hr>
-                    <p>There should be some information about me here, but i haven't done anything like that yet.</p>
-                </div> -->
-
-                <div>
-                    <h4 class="text-uppercase">work experience</h4>
-                    <hr>
-
-                    <ul class="list">
-                        <li class="list-item">
-                            <h5 class="display-6 text-uppercase">Software Engineer</h5>
-                            <h6 class="text-uppercase text-black 50">Allied Associates Internation / Sep 2020 - Present</h6>
-                            <ul>
-                                <li class="list-item">
-                                    Provide network protocol analysis and data traffic analysis to identify malicious activity across networks.
-                                </li>
-                                <li class="list-item">
-                                    Work to identify security flaws and exploit weaknesses in encryption, secure storage, communications, and code execution vulnerabilities.
-                                </li>
-                                <li class="list-item">
-                                    Utilize C#, Python, and PowerShell to analyze network protocols (TCP/IP, wireshark, tcpdump, etc.)
-                                </li>
-                            </ul>
+                        <li class="nav__item">
+                            <a href="#profile" class="nav__link">
+                                <i class="bx bx-user nav__icon"></i>Profile
+                            </a>
                         </li>
-                        <li class="list-item">
-                            <h5 class="display-6 text-uppercase pt-3">Cyber Systems Operator</h5>
-                            <h6 class="text-uppercase text-black 50">Ohio ANG / May 2016 - Present</h6>
-                            <ul>
-                                <li class="list-item">
-                                    Led design and creation of network monitoring tool to ensure optimal uptime of all servers and swithes on the base
-                                </li>
-                                <li class="list-item">
-                                    Ensure up to date and correct network defense mechanisms are in place to protect and counteract any malicious activity
-                                </li>
-                                <li class="list-item">
-                                    Manage and maintain servers and base communications with VCenter, MMC, and other administrative tools.
-                                </li>
-                            </ul>
+
+                        <li class="nav__item">
+                            <a href="#education" class="nav__link">
+                                <i class="bx bx-book nav__icon"></i>Education
+                            </a>
                         </li>
-                        <li class="list-item">
-                            <h5 class="display-6 text-uppercase pt-3">Model Developer</h5>
-                            <h6 class="text-uppercase text-black 50">Hanley Sustainability Fund / October 2019 - December 2020</h6>
-                            <ul>
-                                <li class="list-item">
-                                    Maintain, update, and refactor a Python-based model analyzing the S&P Fossil Free Index
-                                </li>
-                                <li class="list-item">
-                                    Organized projects to improve investment for the algorithmic trading model 
-                                </li>
-                                <li class="list-item">
-                                    Aided in the algo-trading model outperforming the S&P 500 and DJIA 3 years in a row
-                                </li>
-                            </ul>
+
+                        <li class="nav__item">
+                            <a href="#experience" class="nav__link">
+                                <i class="bx bx-briefcase-alt nav__icon"></i>Experience
+                            </a>
+                        </li>
+
+                        <li class="nav__item">
+                            <a href="#certificates" class="nav__link">
+                                <i class="bx bx-award nav__icon"></i>Certificates
+                            </a>
+                        </li>
+
+                        <li class="nav__item">
+                            <a href="#references" class="nav__link">
+                                <i class="bx bx-link-external nav__icon"></i>References
+                            </a>
                         </li>
                     </ul>
                 </div>
-                <br><br>
-                <div>
-                    <h6 class="text-uppercase">More Skills & additional Information</h4>
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <td class="text-right font-weight-bold">Skills</td>
-                                <td>C#, Python, PowerShell, Java, SQL, C, VBA</td>
-                            </tr>
 
-                            <tr>
-                                <td class="text-right font-weight-bold">Certifications</td>
-                                <td>TS/SCI Security Clearance w/ Poly, CompTIA Security+, Cyber Network Defense Course</td>
-                            </tr>
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class="bx bx-grid-alt"></i>
+                </div>
 
-                            <tr>
-                                <td class="text-right font-weight-bold">Enterprise Server Experience</td>
-                                <td>Domain Controllers, SAN, File, Print, DHCP, Application, Backup, HBSS, MDT, DNS, SQL, Linux Red Hat</td>
-                            </tr>
+            </nav>
+        </header>
 
-                            <tr>
-                                <td class="text-right font-weight-bold">OS Experience</td>
-                                <td>Windows 7, 8, 10; Windows Server 2008R2, 2012R2, 2016; macOS Client Server; Linux Red Hat, Raspbian, Ubuntu</td>
-                            </tr>
+        <main class="l-main bd-container">
+            <!-- All elements within this div, is generated in PDF -->
+            <div class="resume" id="area-cv">
+                <div class="resume__left">
+                    <!--========== HOME ==========-->
+                    <section class="home" id="home">
+                        <div class="home__container section bd-grid">
+                            <div class="home__data bd-grid">
+                                <img src="assets/images/pfp_gs.png" alt="" class="home__img">
 
-                            <tr>
-                                <td class="text-right font-weight-bold">Volunteer Work</td>
-                                <td>Eagle Scout, Troop 121; Chapter Operations, Epsilon Tau Pi; MIS Capstone, InSource Consulting</td>
-                            </tr>
+                                <h1 class="home__title"> BAILEY <b>DAUTERMAN</b></h1>
+                                <h3 class="home__profession">Software Engineer</h3>
+
+                                <div>
+                                    <a href="assests/pdf/Resume.pdf" class="home__button-movil">Download</a>
+                                </div>
+                            </div>
+
                             
-                        </tbody>
-                    </table>
+                        </div>
+
+                        <div class="home__address bd-grid">
+                            <span class="home__information">
+                                <i class="bx bx-map home__icon"></i>Atlanta, GA 
+                            </span>
+
+                            <span class="home__information">
+                                <i class="bx bx-envelope home__icon"></i>dauterman.bailey@gmail.com
+                            </span>
+
+                            <span class="home__information">
+                                <i class="bx bx-phone home__icon"></i>419-961-3145
+                            </span>
+                        </div>
+                        <!-- Theme change button -->
+                        <i class="bx bx-moon change-theme" title="Theme" id="theme-button"></i>
+    
+                        <!-- Button to generate and download the pdf. Available for desktop. -->
+                        <!-- <i class="bx bx-download generate-pdf" title="Generate PDF" id="resume-button"></i> -->
+                    </section>          
+                    
+                    <!--========== SOCIAL ==========-->
+                    <section class="social section">
+                        <h2 class="section-title">SOCIAL</h2>
+
+                        <div class="social__container bd-grid">
+                            <a href="https://www.linkedin.com/in/baileydauterman/" target="_blank" class="social__link">
+                                <i class="bx bxl-linkedin-square social__icon"></i> @baileydauterman
+                            </a>
+                            <a href="https://github.com/baileydauterman" target="_blank" class="social__link">
+                                <i class="bx bxl-github social__icon"></i> @baileydauterman
+                            </a>
+                            <a href="#" target="_blank" class="social__link">
+                                <i class="bx bxl-instagram social__icon"></i> @thebaileydauterman
+                            </a>
+                        </div>
+                    </section>
+
+                    <!--========== PROFILE ==========-->
+                    <section class="profile section" id="profile">
+                        <h2 class="section-title">PROFILE</h2>
+
+                        <p class="profile__description">
+                            I am a Software Engineer and Systems Administrator with experience in the latest tools for development and administration.
+                        </p>
+                    </section>
+                    
+                    <!--========== EDUCATION ==========-->
+                    <section class="education section" id="education">
+                        <h2 class="section-title">EDUCATION</h2>
+
+                        <div class="education__container bd-grid">
+                            <div class="education__content">
+                                <div class="education__time">
+                                    <span class="education__rounder"></span>
+                                    <!-- <span class="education__line"></span> -->
+                                </div>
+
+                                <div class="education__data bd-grid">
+                                    <h3 class="education__title">MIS & Computer Science, Bachelors</h3>
+                                    <span class="education__studies">University of Dayton</span>
+                                    <span class="education__year">2016-2020</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <!--========== SKILLS  ==========-->
+                    <section class="skills section" id="skills">
+                        <h2 class="section-title">SKILLS</h2>
+
+                        <div class="skills__content bd-grid">
+                            <ul class="skills__data">
+                                <li class="skills__name">
+                                    <span class="skills__circle"></span>Teamwork
+                                </li>
+                                <li class="skills__name">
+                                    <span class="skills__circle"></span>Leadership
+                                </li>
+                                <li class="skills__name">
+                                    <span class="skills__circle"></span>Analytical
+                                </li>
+                                <li class="skills__name">
+                                    <span class="skills__circle"></span>Driven
+                                </li>
+                            </ul>
+
+                            <ul class="skills__data">
+                                <li class="skills__name">
+                                    <span class="skills__circle"></span>Critical Thinking
+                                </li>
+                                <li class="skills__name">
+                                    <span class="skills__circle"></span>Adaptability
+                                </li>
+                                <li class="skills__name">
+                                    <span class="skills__circle"></span>Collaboration
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+
                 </div>
-            </div>
-        </div>
-    </div>
-  </body>
+
+                <div class="resume__right">
+                    <!--========== EXPERIENCE ==========-->
+                    <section class="experience section" id="experience">
+                        <h2 class="section-title">Experience</h2>
+
+                        <div class="experience__container bd-grid">
+                            <div class="experience__content">
+                                <div class="experience__time">
+                                    <span class="experience__rounder"></span>
+                                    <span class="experience__line"></span>
+                                </div>
+
+                                <div class="experience__data bd-grid">
+                                    <h3 class="experience__title">Software Engineer</h3>
+                                    <span class="experience__company">Sep 2020 - Present | Allied Associates International</span>
+                                    <p class="experience__description">
+                                        Provide network protocol analysis and data traffic analysis to identify malicious activity across networks. Work to identify security flaws and exploit weaknesses in encryption, secure storage, communications, and code execution vulnerabilities. Utilize C#, Python, and PowerShell to analyze network protocols (TCP/IP, wireshark, tcpdump, etc.)
+                                    </p>
+                                </div>
+
+                            </div>
+                            <div class="experience__content">
+                                <div class="experience__time">
+                                    <span class="experience__rounder"></span>
+                                    <span class="experience__line"></span>
+                                </div>
+                                <div class="experience__data bd-grid">
+                                    <h3 class="experience__title">Cyber Systems Operator</h3>
+                                    <span class="experience__company">May 2016 - Present | Ohio Air National Guard</span>
+                                    <p class="experience__description">
+                                        Led design and creation of network monitoring tool to ensure optimal uptime of all servers and swithes on the base Ensure up to date and correct network defense mechanisms are in place to protect and counteract any malicious activity. Manage and maintain servers and base communications with VCenter, MMC, and other administrative tools.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="experience__content">
+                                <div class="experience__time">
+                                    <span class="experience__rounder"></span>
+                                    <!-- <span class="experience__line"></span> -->
+                                </div>
+                                <div class="experience__data bd-grid">
+                                    <h3 class="experience__title">Model Developer</h3>
+                                    <span class="experience__company">Oct 2019 - Dec 2020</span>
+                                    <p class="experience__description">
+                                        Maintain, update, and refactor a Python-based model analyzing the S&P Fossil Free Index. Organized projects to improve investment for the algorithmic trading model. Aided in the algo-trading model outperforming the S&P 500 and DJIA 3 years in a row
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!--========== CERTIFICATES ==========-->
+                    <section class="certificate section" id="certificates">
+                        <h2 class="section-title">Certificates</h2>
+
+                        <div class="certificate__container bd-grid">
+                            <div class="certificate__content">
+                                <h3 class="certificate__title">CompTIASecurity+</h3>
+                                <p class="certificate__description">
+                                    CompTIA Security+ is a global certification that validates the baseline skills necessary to perform core security functions and pursue an IT security career.
+                                </p>
+                            </div>
+                            <div class="certificate__content">
+                                <h3 class="certificate__title">TS/SCI w/ Polygraph</h3>
+                                <p class="certificate__description">Top Secret clearance requires the most rigorous background check and the SCI designation means there’s an elevated risk of potential harm to national security; all who require SCI access should be mindful of this going into the clearance screening process.</p>
+                            </div>
+                            <div class="certificate__content">
+                                <h3 class="certificate__title">Cyber Network Defense Course</h3>
+                                <p class="certificate__description">Technically challenging two-week hands-on course that teaches techniques and methodologies to defend your systems, networks, and applications against some of the latest computing threats.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!--========== REFERENCES ==========-->
+                    <section class="references section" id="references">
+                        <h2 class="section-title">References</h2>
+
+                        <div class="references__container bd-grid">
+                            <div class="references__content bd-grid">
+                                <span class="references__subtitle">Director</span>
+                                <h3 class="references__title">Name Here</h3>
+                                <ul class="references__contact">
+                                    <li>Phone: </li>
+                                    <li>Email: </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!--========== LANGUAGES ==========-->
+                    <section class="languages section">
+                        <h2 class="section-title">Programming Languages</h2>
+
+                        <div class="languages__container">
+                            <ul class="languages__content bd-grid">
+                                <li class="languages__name">
+                                    <span class="languages__circle"></span>C#
+                                </li>
+                                <li class="languages__name">
+                                    <span class="languages__circle"></span>Python
+                                </li>
+                                <li class="languages__name">
+                                    <span class="languages__circle"></span>Java
+                                </li>
+                                <li class="languages__name">
+                                    <span class="languages__circle"></span>PowerShell
+                                </li>
+                                <li class="languages__name">
+                                    <span class="languages__circle"></span>C
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                    
+                    <!--========== INTERESTS ==========-->
+                    <section class="interests section">
+                        <h2 class="section-title">Interests</h2>
+
+                        <div class="interests__container bd-grid">
+                            <div class="interests__content">
+                                <i class="bx bx-code interests__icon"></i>
+                                <span class="interests__name">Programming</span>
+                            </div>
+
+                            <div class="interests__content">
+                                <i class="bx bxl-steam interests__icon"></i>
+                                <span class="interests__name">Gaming</span>
+                            </div>
+
+                            <div class="interests__content">
+                                <i class="bx bx-headphone interests__icon"></i>
+                                <span class="interests__name">Music</span>
+                            </div>
+
+                            <div class="interests__content">
+                                <i class="bx bx-dumbbell interests__icon"></i>
+                                <span class="interests__name">Fitness</span>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>        
+        </main>
+
+        <!--========== SCROLL TOP ==========-->
+        <a href="#" class="scrolltop" id="scroll-top">
+            <i class="bx bx-up-arrow-alt scrolltop__icon"></i>
+        </a>
+
+        <!--========== HTML2PDF ==========-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js" integrity="sha512-YcsIPGdhPK4P/uRW6/sruonlYj+Q7UHWeKfTAkBW+g83NKM+jMJFJ4iAPfSnVp7BKD4dKMHmVSvICUbE/V1sSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <!--========== MAIN JS ==========-->
+        <script src="assets/js/main.js"></script>
+    </body>
 </html>
