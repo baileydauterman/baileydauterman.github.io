@@ -42,7 +42,7 @@
 }
 
 html {
-    scroll-behavior: smoot;
+    scroll-behavior: smooth;
 }
 /*========== Variables Dark theme ==========*/
 body.dark-theme {
@@ -148,6 +148,10 @@ body.scale-cv {
 .scale-cv .education__time,
 .scale-cv .experience__time {
     padding-right: .5rem;
+}
+
+.scale-cv .references__container {
+    display: none;
 }
 
 .scale-cv .education__rounder, 
