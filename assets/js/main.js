@@ -90,31 +90,31 @@ function removeScale() {
 
 /*==================== GENERATE PDF ====================*/ 
 // PDF generated area
-let areaCv = document.getElementById('area-cv')
-let resumeButton = document.getElementById('resume-button')
+// let areaCv = document.getElementById('area-cv')
+// let resumeButton = document.getElementById('resume-button')
 
-// Html2pdf options
-let opt = {
-    margin: 1,
-    filename: 'Resume.pdf',
-    image: {type: 'png', quality: 0.98 },
-    html2canvas: { scale: 4},
-    jsPDF: {format: 'a4', orientation: 'portrait'}
-}
+// // Html2pdf options
+// let opt = {
+//     margin: 1,
+//     filename: 'Resume.pdf',
+//     image: {type: 'png', quality: 0.98 },
+//     html2canvas: { scale: 4},
+//     jsPDF: {format: 'a4', orientation: 'portrait'}
+// }
 
-// Function to call areaCv and Html2Pdf options 
-function generateResume() {
-    var worker = html2pdf();
-    var worker = html2pdf().set(opt).from(areaCv).save();
-    //html2pdf().set(opt).from(areaCv).toPdf().save()
-}
+// // Function to call areaCv and Html2Pdf options 
+// function generateResume() {
+//     var worker = html2pdf();
+//     var worker = html2pdf().set(opt).from(areaCv).save();
+//     //html2pdf().set(opt).from(areaCv).toPdf().save()
+// }
 
-// When the button is clicked, it executes the three functions
-resumeButton.addEventListener('click', () => {
-    scaleCV()
-    generateResume()
-    setTimeout(removeScale, 5000)
-})
+// // When the button is clicked, it executes the three functions
+// resumeButton.addEventListener('click', () => {
+//     scaleCV()
+//     generateResume()
+//     setTimeout(removeScale, 5000)
+// })
     // 1. The class .scale-cv is added to the body, where it reduces the size of the elements
 
 
