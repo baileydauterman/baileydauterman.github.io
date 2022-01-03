@@ -11,7 +11,7 @@
   --text-color-light: #707070;
   --container-color: #FAFAFA;
   --container-color-alt: #F0EFEF;
-  --body-color: #FCFCFC;
+  --body-color: #2b2b2b;
 
   /*========== Font and typography ==========*/
   --body-font: 'Poppins', sans-serif;
@@ -243,7 +243,7 @@ img {
     left: 0;
     z-index: var(--z-fixed);
     background-color: var(--body-color);
-    box-shadow: 0 -1px 4px rgba(0,0,0,.1);
+    box-shadow: 0 -1px 4px rgba(75, 75, 75, 0.1);
     transition: .3s;
 }
 
