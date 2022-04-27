@@ -103,9 +103,8 @@
                         <i class="bx bx-moon change-theme" title="Theme" id="theme-button"></i>
     
                         <!-- Button to generate and download the pdf. Available for desktop. -->
-                        <a href="./assets/pdf/Resume.pdf" download="Resume.pdf">
-                            <i class="bx bx-download generate-pdf" title="Download PDF"></i>
-                        </a>
+                        <i class="bx bx-download generate-pdf" id="resume-button" onclick="generateResume()" title="Download PDF"></i>
+
                     </section>          
                     
                     <!--========== SOCIAL ==========-->
@@ -301,7 +300,7 @@
                                     <span class="languages__circle"></span>PowerShell
                                 </li>
                                 <li class="languages__name">
-                                    <span class="languages__circle"></span>C
+                                    <span class="languages__circle"></span>C++
                                 </li>
                             </ul>
                         </div>
@@ -343,7 +342,7 @@
         </a>
 
         <!--========== HTML2PDF ==========-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js" integrity="sha512-YcsIPGdhPK4P/uRW6/sruonlYj+Q7UHWeKfTAkBW+g83NKM+jMJFJ4iAPfSnVp7BKD4dKMHmVSvICUbE/V1sSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="assets/js/html2pdf.bundle.min.js"></script>
 
         <!--========== MAIN JS ==========-->
         <script src="assets/js/main.js"></script>
