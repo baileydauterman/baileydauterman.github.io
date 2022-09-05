@@ -1,2 +1,2 @@
 # baileydauterman.github.io
-Resume website using bootstrap and Font Awesome Icons
+Resume website using HTML and bootstrap. Should be the size of paper based on pixels. Easily updated
