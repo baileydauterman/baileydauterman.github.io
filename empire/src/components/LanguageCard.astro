@@ -1,0 +1,22 @@
+---
+const today = new Date();
+
+const { language, class: className, ...props } = Astro.props;
+---
+
+<div class="card">
+    <p>{language}</p>
+</div>
+
+<style>
+    .card {
+        /* Add shadows to create the "card" effect */
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+        max-width: 10ch;
+        background-color: #6a040f;
+        color: darkgray;
+        text-align: center;
+        font-variant: small-caps;
+    }
+</style>

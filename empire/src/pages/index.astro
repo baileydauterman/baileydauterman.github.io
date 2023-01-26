@@ -1,0 +1,45 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import LanguageCard from "../components/LanguageCard.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header title={SITE_TITLE} />
+		<main>
+			<h1>Welcome, adventurer!</h1>
+			<p>Funny seeing you around these parts of the internet.</p>
+			<p>
+				I'm excited to share a little bit about myself and my interests
+				with you. My website is a platform for me to share my thoughts,
+				experiences, and projects with the world.
+			</p>
+			<p>
+				Here you'll find information about my background, education,
+				experience, and interests. My blog is where I write about
+				various topics such as technology, personal development, and
+				travel.
+			</p>
+			<p>
+				I also share my photography and my portfolio of my personal
+				projects. In addition, you can find my contact information and
+				links to my social media profiles, so feel free to reach out and
+				connect with me. I hope you enjoy exploring my website, and I
+				welcome any feedback or suggestions you might have.
+			</p>
+
+			<p>
+				Thanks for visiting! Take a look around and see what you find :)
+			</p>
+		</main>
+		<LanguageCard language="thing" />
+		<Footer />
+	</body>
+</html>
