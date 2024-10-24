@@ -1,0 +1,43 @@
+#jsonTextArea {
+    color: transparent;
+    background: transparent;
+    caret-color: white;
+    resize: none;
+    /* Or choose your favorite color */
+}
+
+#jsonTextArea,
+#highlighting {
+    /* Both elements need the same text and space styling so they are directly on top of each other */
+    margin: 10px;
+    padding: 10px;
+    border: 0;
+    overflow: auto;
+    white-space: nowrap;
+    height: 98%;
+}
+
+#jsonTextArea,
+#highlighting,
+#highlighting * {
+    /* Also add text styles to highlighting tokens */
+    font-size: 15pt;
+    font-family: monospace;
+    line-height: 20pt;
+    tab-size: 2;
+}
+
+#jsonTextArea {
+    z-index: 1;
+}
+
+#highlighting {
+    z-index: 0;
+}
+
+#buttonGroup {
+    position: absolute;
+    left: 44%;
+    top: 2%;
+    z-index: 2;
+}

@@ -1,0 +1,7 @@
+    /* roughly the size of a sheet of paper */
+    main {
+        max-width: 915;
+        max-height: 1056;
+        position: absolute;
+        left: 55%;
+    }
