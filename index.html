@@ -33,15 +33,16 @@
             <textarea id="jsonTextArea" class="col-6 position-absolute top-0 start-0"
                 oninput="update(this.value, false); sync_scroll(this);" onscroll="sync_scroll(this);">
         </textarea>
-    
+
             <pre id="highlighting" aria-hidden="true" class="col-6 position-absolute top-0 start-0">
             <code class="language-js" id="highlighting-content"></code>
         </pre>
         </div>
-    
+
         <div class="btn-group align-center" id="buttonGroup">
             <button type="button" class="btn btn-outline-secondary" onclick="printResume()">Print</button>
-            <button type="button" class="btn btn-outline-secondary" onclick="update(jsonTextArea.value, true);">Format</button>
+            <button type="button" class="btn btn-outline-secondary"
+                onclick="update(jsonTextArea.value, true);">Format</button>
         </div>
     </div>
 
@@ -71,8 +72,9 @@
 
             build(json);
         }
-        catch {
+        catch (e) {
             codeArea.innerHTML = text;
+            console.log(e);
         } finally {
             // Syntax Highlight
             Prism.highlightElement(codeArea);
@@ -87,27 +89,40 @@
         result_element.scrollLeft = element.scrollLeft;
     }
 
+    function sortSection(json) {
+        let sorted = []
+        for (var i in json) {
+            if (i === undefined) {
+                continue
+            }
+
+            sorted.push([i, json[i].order])
+        }
+
+        return sorted.sort((a, b) => a[1] - b[1])
+    }
+
     function build(json) {
+        let sortedSection = sortSection(json)
+        let supportedSections = {
+            "info": (info) => createHeader(info),
+            "skills": (skills) => createSkillsSection(skills),
+            "education": (education) => createEducationSection(education),
+            "workExperience": (experience) => createWorkExperienceSection(experience),
+            "projects": (projects) => createProjectsSection(projects),
+            "references": (references) => createReferencesSection(references)
+        }
         let main = document.getElementById("main");
-        main.innerHTML = templatedHtml;
+        main.innerHTML = "";
 
-        createUserNameHeader(json.info.name)
-        createContactInfo(json.info.contactInfo)
+        for (var section in sortedSection) {
+            let header = sortedSection[section][0]
+            let sectionData = json[header];
 
-        if (json.education && json.education.length > 0) {
-            createEducationSection(json.education);
-        }
-
-        if (json.skills && json.skills.length > 0) {
-            createSkillsSection(json.skills);
-        }
-
-        if (json.workExperience && json.workExperience.length > 0) {
-            createWorkExperienceSection(json.workExperience);
-        }
-
-        if (json.projects && json.projects.length > 0) {
-            createProjectsSection(json.projects);
+            if (sectionData !== undefined) {
+                let sectionElement = supportedSections[header](sectionData.content);
+                main.appendChild(sectionElement);
+            }
         }
     }
 

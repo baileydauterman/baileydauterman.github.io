@@ -1,52 +1,37 @@
-const templatedHtml = `
-    <div class="header text-center fs-2 m-0" id="userName">
-    </div>
+function createSectionDiv(title) {
+    let newSectionDiv = createDiv("", ["pb-2"]);
+    newSectionDiv.appendChild(createElement("p", title, ["fs-4", "m-0"]));
+    newSectionDiv.appendChild(createElement("hr", "", ["m-0"]));
+    return newSectionDiv;
+}
 
-    <div class="hstack p-0 m-0" id="userInfo">
-    </div>
-
-    <div class="pb-2 visually-hidden" id="education">
-        <p class="fs-4 m-0">Education</p>
-        <hr class="m-0" />
-    </div>
-
-    <div class="pb-2 visually-hidden" id="skills">
-        <p class="fs-4 m-0">Skills</p>
-        <hr class="m-0">
-    </div>
-
-    <div class="visually-hidden" id="experience">
-        <p class="fs-4 m-0">Experience</p>
-        <hr class="m-0">
-    </div>
-
-    <div class="visually-hidden" id="projects">
-        <p class="fs-4 m-0">Projects</p>
-        <hr class="m-0">
-    </div>
-
-    <div id="references">
-        <p class="text-muted text-center fw-light fst-italic">References available upon request</p>
-    </div>
-`;
+function createHeader(headerInfo) {
+    let headerDiv = createDiv("", []);
+    headerDiv.append(createUserNameHeader(headerInfo.name));
+    headerDiv.append(createContactInfo(headerInfo.contactInfo));
+    return headerDiv;
+}
 
 function createUserNameHeader(name) {
-    let userNameDiv = document.getElementById("userName");
+    let userNameDiv = createDiv("", ["header", "text-center", "fs-2", "m-0"]);
     userNameDiv.textContent = name
     document.title = name + " Resume"
+
+    return userNameDiv;
 }
 
 function createContactInfo(contactInfo) {
-    let contactInfoDiv = document.getElementById("userInfo");
+    let contactInfoDiv = createDiv("", ["hstack", "p-0", "m-0"]);
     contactInfo.forEach(e => {
         child = createDiv(e, ["fw-light", "text-muted", "mx-auto"]);
         contactInfoDiv.appendChild(child);
     });
+
+    return contactInfoDiv;
 }
 
 function createEducationSection(education) {
-    let educationDiv = document.getElementById("education");
-    educationDiv.classList.remove(visuallyHidden);
+    let educationDiv = createSectionDiv("Education")
 
     education.forEach(e => {
         let stack = createHStack();
@@ -65,11 +50,12 @@ function createEducationSection(education) {
         educationDiv.appendChild(stack);
         educationDiv.appendChild(degree);
     });
+
+    return educationDiv;
 }
 
 function createSkillsSection(skills) {
-    let skillsDiv = document.getElementById("skills");
-    skillsDiv.classList.remove(visuallyHidden);
+    let skillsDiv = createSectionDiv("Skills");
 
     skills.forEach(e => {
         let wrappingDiv = createDiv("", []);
@@ -82,11 +68,12 @@ function createSkillsSection(skills) {
 
         skillsDiv.appendChild(wrappingDiv);
     });
+
+    return skillsDiv;
 }
 
 function createWorkExperienceSection(experience) {
-    let experienceDiv = document.getElementById("experience");
-    experienceDiv.classList.remove(visuallyHidden);
+    let experienceDiv = createSectionDiv("Experience")
 
     experience.forEach(e => {
         let wrappingDiv = document.createElement("div");
@@ -129,11 +116,12 @@ function createWorkExperienceSection(experience) {
         wrappingDiv.appendChild(experienceList);
         experienceDiv.appendChild(wrappingDiv);
     });
+
+    return experienceDiv;
 }
 
 function createProjectsSection(projects) {
-    let projectsDiv = document.getElementById("projects");
-    projectsDiv.classList.remove(visuallyHidden);
+    let projectsDiv = createSectionDiv("Projects")
 
     projects.forEach(e => {
         let wrappingDiv = createDiv("", []);
@@ -148,4 +136,12 @@ function createProjectsSection(projects) {
         wrappingDiv.appendChild(description);
         projectsDiv.appendChild(wrappingDiv);
     });
+
+    return projectsDiv
+}
+
+function createReferencesSection(references) {
+    var referencesDiv = createDiv("", []);
+    referencesDiv.appendChild(createElement("p", "References available upon request", ["text-muted", "text-center", "fw-light", "fst-italic"]))
+    return referencesDiv;
 }
