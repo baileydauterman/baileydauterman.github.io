@@ -191,7 +191,7 @@ body {
 
 .entries { display: flex; flex-direction: column; gap: 0.85rem; }
 
-.entry { position: relative; padding-right: 1.2rem; }
+.entry { position: relative; }
 
 .entry-row {
   display: flex;
@@ -239,7 +239,7 @@ body {
 .remove-btn {
   position: absolute;
   top: -6px;
-  right: -6px;
+  right: -28px;
   width: 20px;
   height: 20px;
   line-height: 18px;
@@ -268,6 +268,37 @@ body {
   cursor: pointer;
 }
 .add-btn:hover { background: rgba(37, 99, 235, 0.06); color: var(--accent); border-color: var(--accent); }
+
+.add-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+.add-section select {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--rule);
+  background: var(--paper-bg);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.add-section-btn {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px dashed var(--rule);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.add-section-btn:hover { background: rgba(37, 99, 235, 0.06); color: var(--accent); border-color: var(--accent); }
 
 /* ---------- print: maximize the page, hide chrome ---------- */
 @media print {
@@ -298,7 +329,8 @@ html.printing[data-theme="bold"] .resume-header {
 
 html.printing .remove-btn,
 html.printing .add-btn,
-html.printing .section-controls { display: none !important; }
+html.printing .section-controls,
+html.printing .add-section { display: none !important; }
 
 html.printing [contenteditable="true"]:hover,
 html.printing [contenteditable="true"]:focus {

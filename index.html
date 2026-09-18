@@ -28,12 +28,12 @@
 <main class="page" id="resume">
 
   <header class="resume-header">
-    <h1 contenteditable="true" data-single-line data-placeholder="Your Name">Your Name</h1>
+    <h1 contenteditable="true" data-single-line data-placeholder="Your Name"></h1>
     <div class="contact-row">
-      <span contenteditable="true" data-single-line data-placeholder="City, ST">City, ST</span>
-      <span contenteditable="true" data-single-line data-placeholder="(555) 555-5555">(555) 555-5555</span>
-      <span contenteditable="true" data-single-line data-placeholder="you@email.com">you@email.com</span>
-      <span contenteditable="true" data-single-line data-placeholder="linkedin.com/in/you">linkedin.com/in/you</span>
+      <span contenteditable="true" data-single-line data-placeholder="City, ST"></span>
+      <span contenteditable="true" data-single-line data-placeholder="(555) 555-5555"></span>
+      <span contenteditable="true" data-single-line data-placeholder="you@email.com"></span>
+      <span contenteditable="true" data-single-line data-placeholder="linkedin.com/in/you"></span>
     </div>
   </header>
 
@@ -51,10 +51,10 @@
       <div class="entry">
         <button class="remove-btn" type="button" title="Remove entry">×</button>
         <div class="entry-row">
-          <strong contenteditable="true" data-single-line data-placeholder="School Name">School Name</strong>
-          <span class="date" contenteditable="true" data-single-line data-placeholder="Month Year">Month Year</span>
+          <strong contenteditable="true" data-single-line data-placeholder="School Name"></strong>
+          <span class="date" contenteditable="true" data-single-line data-placeholder="Month Year"></span>
         </div>
-        <div class="entry-sub" contenteditable="true" data-single-line data-placeholder="Degree, Major">Degree, Major</div>
+        <div class="entry-sub" contenteditable="true" data-single-line data-placeholder="Degree, Major"></div>
       </div>
     </div>
     <button class="add-btn" type="button" data-template="tpl-education" data-section="education">+ Add education</button>
@@ -73,8 +73,8 @@
     <div class="entries" data-section="skills">
       <div class="entry skill-entry">
         <button class="remove-btn" type="button" title="Remove line">×</button>
-        <strong contenteditable="true" data-single-line data-placeholder="Category">Category:</strong>
-        <span contenteditable="true" data-single-line data-placeholder="Skill, Skill, Skill">Skill, Skill, Skill</span>
+        <strong contenteditable="true" data-single-line data-placeholder="Category:"></strong>
+        <span contenteditable="true" data-single-line data-placeholder="Skill, Skill, Skill"></span>
       </div>
     </div>
     <button class="add-btn" type="button" data-template="tpl-skill" data-section="skills">+ Add skill line</button>
@@ -94,15 +94,15 @@
       <div class="entry">
         <button class="remove-btn" type="button" title="Remove entry">×</button>
         <div class="entry-row">
-          <strong contenteditable="true" data-single-line data-placeholder="Company Name">Company Name</strong>
-          <span class="date" contenteditable="true" data-single-line data-placeholder="City, ST">City, ST</span>
+          <strong contenteditable="true" data-single-line data-placeholder="Company Name"></strong>
+          <span class="date" contenteditable="true" data-single-line data-placeholder="City, ST"></span>
         </div>
         <div class="entry-row">
-          <em contenteditable="true" data-single-line data-placeholder="Job Title">Job Title</em>
-          <span class="date" contenteditable="true" data-single-line data-placeholder="Start – End">Start – End</span>
+          <em contenteditable="true" data-single-line data-placeholder="Job Title"></em>
+          <span class="date" contenteditable="true" data-single-line data-placeholder="Start – End"></span>
         </div>
         <ul class="bullets">
-          <li contenteditable="true" data-placeholder="Describe an accomplishment...">Describe an accomplishment...</li>
+          <li contenteditable="true" data-placeholder="Describe an accomplishment..."></li>
         </ul>
       </div>
     </div>
@@ -123,16 +123,26 @@
       <div class="entry">
         <button class="remove-btn" type="button" title="Remove entry">×</button>
         <div class="entry-row">
-          <strong contenteditable="true" data-single-line data-placeholder="Project Name">Project Name</strong>
-          <span class="date" contenteditable="true" data-single-line data-placeholder="Start – End">Start – End</span>
+          <strong contenteditable="true" data-single-line data-placeholder="Project Name"></strong>
+          <span class="date" contenteditable="true" data-single-line data-placeholder="Start – End"></span>
         </div>
-        <div class="entry-sub" contenteditable="true" data-placeholder="A short description of the project">A short description of the project</div>
+        <div class="entry-sub" contenteditable="true" data-placeholder="A short description of the project"></div>
       </div>
     </div>
     <button class="add-btn" type="button" data-template="tpl-project" data-section="projects">+ Add project</button>
   </section>
 
-  <p class="footer-note" contenteditable="true" data-single-line data-placeholder="References available upon request">References available upon request</p>
+  <div class="add-section">
+    <select id="section-type-select">
+      <option value="education">Education</option>
+      <option value="skills">Skills</option>
+      <option value="experience">Experience</option>
+      <option value="projects">Project</option>
+    </select>
+    <button id="add-section-btn" class="add-section-btn" type="button">+ Add Section</button>
+  </div>
+
+  <p class="footer-note" contenteditable="true" data-single-line data-placeholder="References available upon request"></p>
 
 </main>
 
@@ -151,7 +161,7 @@
 <template id="tpl-skill">
   <div class="entry skill-entry">
     <button class="remove-btn" type="button" title="Remove line">×</button>
-    <strong contenteditable="true" data-single-line data-placeholder="Category"></strong>
+    <strong contenteditable="true" data-single-line data-placeholder="Category:"></strong>
     <span contenteditable="true" data-single-line data-placeholder="Skill, Skill, Skill"></span>
   </div>
 </template>
@@ -182,6 +192,23 @@
     </div>
     <div class="entry-sub" contenteditable="true" data-placeholder="A short description of the project"></div>
   </div>
+</template>
+
+<!-- blank section shell cloned by "+ Add Section" -->
+<template id="tpl-section-shell">
+  <section class="section">
+    <div class="section-head">
+      <h2 contenteditable="true" data-single-line data-placeholder="Section Title"></h2>
+      <div class="section-controls">
+        <button class="move-up-btn" type="button" title="Move section up">↑</button>
+        <button class="move-down-btn" type="button" title="Move section down">↓</button>
+        <button class="duplicate-section-btn" type="button" title="Duplicate section">⧉</button>
+        <button class="remove-section-btn" type="button" title="Delete section">×</button>
+      </div>
+    </div>
+    <div class="entries"></div>
+    <button class="add-btn" type="button"></button>
+  </section>
 </template>
 
 <script src="app.js"></script>

@@ -5,6 +5,13 @@
   const resume = document.getElementById("resume");
   const themeSelect = document.getElementById("theme-select");
 
+  const SECTION_TYPES = {
+    education: { heading: "Education", template: "tpl-education", addLabel: "+ Add education" },
+    skills: { heading: "Skills", template: "tpl-skill", addLabel: "+ Add skill line" },
+    experience: { heading: "Experience", template: "tpl-experience", addLabel: "+ Add experience" },
+    projects: { heading: "Projects", template: "tpl-project", addLabel: "+ Add project" },
+  };
+
   // plain <br> line breaks instead of nested <div>s when typing multi-line text
   document.execCommand("defaultParagraphSeparator", false, "br");
 
@@ -42,6 +49,38 @@
     if (e.target.matches("[data-single-line]") && e.key === "Enter") {
       e.preventDefault();
     }
+  });
+
+  // ---------- paste as plain text: incoming content should pick up the theme's styling, not its source's ----------
+  resume.addEventListener("paste", (e) => {
+    const target = e.target.closest("[contenteditable='true']");
+    if (!target) return;
+    e.preventDefault();
+
+    let text = (e.clipboardData || window.clipboardData).getData("text/plain");
+    if (target.matches("[data-single-line]")) text = text.replace(/\r?\n/g, " ");
+
+    const sel = window.getSelection();
+    if (!sel.rangeCount) return;
+    const range = sel.getRangeAt(0);
+    range.deleteContents();
+
+    const frag = document.createDocumentFragment();
+    text.split(/\r?\n/).forEach((line, i) => {
+      if (i > 0) frag.appendChild(document.createElement("br"));
+      frag.appendChild(document.createTextNode(line));
+    });
+    const lastNode = frag.lastChild;
+    range.insertNode(frag);
+
+    if (lastNode) {
+      const after = document.createRange();
+      after.setStartAfter(lastNode);
+      after.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(after);
+    }
+    saveSoon();
   });
 
   // ---------- add / remove entries (event delegation, works for cloned nodes too) ----------
@@ -92,6 +131,29 @@
     const removeSectionBtn = e.target.closest(".remove-section-btn");
     if (removeSectionBtn) {
       removeSectionBtn.closest(".section").remove();
+      save();
+      return;
+    }
+
+    if (e.target.id === "add-section-btn") {
+      const type = document.getElementById("section-type-select").value;
+      const info = SECTION_TYPES[type];
+      const shell = document.getElementById("tpl-section-shell").content.firstElementChild.cloneNode(true);
+
+      shell.querySelector(".section-head h2").textContent = info.heading;
+      const addBtn = shell.querySelector(".add-btn");
+      addBtn.dataset.template = info.template;
+      addBtn.dataset.section = type;
+      addBtn.textContent = info.addLabel;
+
+      const entryTpl = document.getElementById(info.template);
+      shell.querySelector(".entries").appendChild(entryTpl.content.firstElementChild.cloneNode(true));
+
+      document.querySelector(".add-section").before(shell);
+
+      const heading = shell.querySelector(".section-head h2");
+      heading.focus();
+      document.execCommand("selectAll", false, null);
       save();
       return;
     }
