@@ -1,171 +1,188 @@
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Bailey Dauterman</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"/>
-    <link rel="icon" href=".\assets\terminal-solid.svg">
-  </head>
-  <body class="bg-dark">
-    <div class="container p-5">
-        <div class="row">
-            <div class="col-md-4 bg-dark text-white text-center py4">
-                <div class="header-left">
-                    <img src=".\assets\pfp_zoomed.jpg" alt="" class="img-thumbnail rounded-circle mb-2">
-                    <h1 class="display-5">Bailey Dauterman</h1>
-                    <h4 class="lead text-uppercase text-white-50-4 mb-3">Software Engineer</h4>
-                </div>
+<!DOCTYPE html>
+<html lang="en" data-theme="classic">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume Builder</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-                <div>
-                    <h5 class="text-uppercase rounded bg-white text-dark py-2 rounded-pill">contact</h5>
+<div class="toolbar">
+  <div class="toolbar-theme">
+    <label for="theme-select">Theme</label>
+    <select id="theme-select">
+      <option value="classic">Classic</option>
+      <option value="modern">Modern</option>
+      <option value="elegant">Elegant</option>
+      <option value="bold">Bold</option>
+    </select>
+  </div>
+  <div class="toolbar-actions">
+    <button id="reset-btn" type="button">Reset</button>
+    <button id="print-btn" type="button" class="primary">Print / Save PDF</button>
+  </div>
+</div>
 
-                    <ul class="list-unstyled text-white-50 text-left">
-                        <li class="list-item">
-                            <i class="fas fa-mobile-alt p-2"></i>
-                            &nbsp;&nbsp;(419)-961-3145
-                        </li>
-                        <li class="list-item">
-                            <i class="fas fa-paper-plane p-2"></i>
-                            dauterman.bailey@gmail.com
-                        </li>
-                        <li class="list-item">
-                            <i class="fas fa-code-branch p-2"></i>
-                            &nbsp;github.com/baileydauterman
-                        </li>
-                        <li class="list-item">
-                            <i class="fas fa-map-marker-alt p-2"></i>
-                            &nbsp;Alexandria, VA
-                        </li>
-                    </ul>
-                </div>
+<main class="page" id="resume">
 
-                <div>
-                    <h5 class="text-uppercase rounded bg-white text-dark py-2 rounded-pill">skills</h5>
-                    <ul class="list text-white-50 text-left text-capitalize px-4">
-                        <li class="list-item p-1">Teamwork</li>
-                        <li class="list-item p-1">Leadership</li>
-                        <li class="list-item p-1">Analytical</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h5 class="text-uppercase rounded bg-white text-dark py-2 rounded-pill">education</h5>
-                    <ul class="list text-white-50 text-left text-capitalize px-4">
-                        <li class="list-item p-1">B.S. Management Information Systems and Computer Science, University of Dayton</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <a href="https://discordapp.com/users/373610540603277312" style="color: black;">
-                        <i class="fab fa-discord fa-2x p-2"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/in/baileydauterman/" style="color: black;">
-                        <i class="fab fa-linkedin fa-2x p-2"></i>
-                    </a>
-                    <a href="https://github.com/baileydauterman" style="color: black;">
-                        <i class="fab fa-github fa-2x p-2"></i>
-                    </a>
-                    <a href="#" style="color: black;">
-                        <i class="fab fa-apple-pay fa-2x p-2"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-8 bg-light rounded text-dark p-4">
-                <!-- <div class="header-right">
-                    <h4 class="text-uppercase">profile</h4>
-                    <hr>
-                    <p>There should be some information about me here, but i haven't done anything like that yet.</p>
-                </div> -->
-
-                <div>
-                    <h4 class="text-uppercase">work experience</h4>
-                    <hr>
-
-                    <ul class="list">
-                        <li class="list-item">
-                            <h5 class="display-6 text-uppercase">Software Engineer</h5>
-                            <h6 class="text-uppercase text-black 50">Allied Associates Internation / Sep 2020 - Present</h6>
-                            <ul>
-                                <li class="list-item">
-                                    Provide network protocol analysis and data traffic analysis to identify malicious activity across networks.
-                                </li>
-                                <li class="list-item">
-                                    Work to identify security flaws and exploit weaknesses in encryption, secure storage, communications, and code execution vulnerabilities.
-                                </li>
-                                <li class="list-item">
-                                    Utilize C#, Python, and PowerShell to analyze network protocols (TCP/IP, wireshark, tcpdump, etc.)
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="list-item">
-                            <h5 class="display-6 text-uppercase pt-3">Cyber Systems Operator</h5>
-                            <h6 class="text-uppercase text-black 50">Ohio ANG / May 2016 - Present</h6>
-                            <ul>
-                                <li class="list-item">
-                                    Led design and creation of network monitoring tool to ensure optimal uptime of all servers and swithes on the base
-                                </li>
-                                <li class="list-item">
-                                    Ensure up to date and correct network defense mechanisms are in place to protect and counteract any malicious activity
-                                </li>
-                                <li class="list-item">
-                                    Manage and maintain servers and base communications with VCenter, MMC, and other administrative tools.
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="list-item">
-                            <h5 class="display-6 text-uppercase pt-3">Model Developer</h5>
-                            <h6 class="text-uppercase text-black 50">Hanley Sustainability Fund / October 2019 - December 2020</h6>
-                            <ul>
-                                <li class="list-item">
-                                    Maintain, update, and refactor a Python-based model analyzing the S&P Fossil Free Index
-                                </li>
-                                <li class="list-item">
-                                    Organized projects to improve investment for the algorithmic trading model 
-                                </li>
-                                <li class="list-item">
-                                    Aided in the algo-trading model outperforming the S&P 500 and DJIA 3 years in a row
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <br><br>
-                <div>
-                    <h6 class="text-uppercase">More Skills & additional Information</h4>
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <td class="text-right font-weight-bold">Skills</td>
-                                <td>C#, Python, PowerShell, Java, SQL, C, VBA</td>
-                            </tr>
-
-                            <tr>
-                                <td class="text-right font-weight-bold">Certifications</td>
-                                <td>TS/SCI Security Clearance w/ Poly, CompTIA Security+, Cyber Network Defense Course</td>
-                            </tr>
-
-                            <tr>
-                                <td class="text-right font-weight-bold">Enterprise Server Experience</td>
-                                <td>Domain Controllers, SAN, File, Print, DHCP, Application, Backup, HBSS, MDT, DNS, SQL, Linux Red Hat</td>
-                            </tr>
-
-                            <tr>
-                                <td class="text-right font-weight-bold">OS Experience</td>
-                                <td>Windows 7, 8, 10; Windows Server 2008R2, 2012R2, 2016; macOS Client Server; Linux Red Hat, Raspbian, Ubuntu</td>
-                            </tr>
-
-                            <tr>
-                                <td class="text-right font-weight-bold">Volunteer Work</td>
-                                <td>Eagle Scout, Troop 121; Chapter Operations, Epsilon Tau Pi; MIS Capstone, InSource Consulting</td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+  <header class="resume-header">
+    <h1 contenteditable="true" data-single-line data-placeholder="Your Name">Your Name</h1>
+    <div class="contact-row">
+      <span contenteditable="true" data-single-line data-placeholder="City, ST">City, ST</span>
+      <span contenteditable="true" data-single-line data-placeholder="(555) 555-5555">(555) 555-5555</span>
+      <span contenteditable="true" data-single-line data-placeholder="you@email.com">you@email.com</span>
+      <span contenteditable="true" data-single-line data-placeholder="linkedin.com/in/you">linkedin.com/in/you</span>
     </div>
-  </body>
+  </header>
+
+  <section class="section">
+    <div class="section-head">
+      <h2 contenteditable="true" data-single-line data-placeholder="Section Title">Education</h2>
+      <div class="section-controls">
+        <button class="move-up-btn" type="button" title="Move section up">↑</button>
+        <button class="move-down-btn" type="button" title="Move section down">↓</button>
+        <button class="duplicate-section-btn" type="button" title="Duplicate section">⧉</button>
+        <button class="remove-section-btn" type="button" title="Delete section">×</button>
+      </div>
+    </div>
+    <div class="entries" data-section="education">
+      <div class="entry">
+        <button class="remove-btn" type="button" title="Remove entry">×</button>
+        <div class="entry-row">
+          <strong contenteditable="true" data-single-line data-placeholder="School Name">School Name</strong>
+          <span class="date" contenteditable="true" data-single-line data-placeholder="Month Year">Month Year</span>
+        </div>
+        <div class="entry-sub" contenteditable="true" data-single-line data-placeholder="Degree, Major">Degree, Major</div>
+      </div>
+    </div>
+    <button class="add-btn" type="button" data-template="tpl-education" data-section="education">+ Add education</button>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2 contenteditable="true" data-single-line data-placeholder="Section Title">Skills</h2>
+      <div class="section-controls">
+        <button class="move-up-btn" type="button" title="Move section up">↑</button>
+        <button class="move-down-btn" type="button" title="Move section down">↓</button>
+        <button class="duplicate-section-btn" type="button" title="Duplicate section">⧉</button>
+        <button class="remove-section-btn" type="button" title="Delete section">×</button>
+      </div>
+    </div>
+    <div class="entries" data-section="skills">
+      <div class="entry skill-entry">
+        <button class="remove-btn" type="button" title="Remove line">×</button>
+        <strong contenteditable="true" data-single-line data-placeholder="Category">Category:</strong>
+        <span contenteditable="true" data-single-line data-placeholder="Skill, Skill, Skill">Skill, Skill, Skill</span>
+      </div>
+    </div>
+    <button class="add-btn" type="button" data-template="tpl-skill" data-section="skills">+ Add skill line</button>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2 contenteditable="true" data-single-line data-placeholder="Section Title">Experience</h2>
+      <div class="section-controls">
+        <button class="move-up-btn" type="button" title="Move section up">↑</button>
+        <button class="move-down-btn" type="button" title="Move section down">↓</button>
+        <button class="duplicate-section-btn" type="button" title="Duplicate section">⧉</button>
+        <button class="remove-section-btn" type="button" title="Delete section">×</button>
+      </div>
+    </div>
+    <div class="entries" data-section="experience">
+      <div class="entry">
+        <button class="remove-btn" type="button" title="Remove entry">×</button>
+        <div class="entry-row">
+          <strong contenteditable="true" data-single-line data-placeholder="Company Name">Company Name</strong>
+          <span class="date" contenteditable="true" data-single-line data-placeholder="City, ST">City, ST</span>
+        </div>
+        <div class="entry-row">
+          <em contenteditable="true" data-single-line data-placeholder="Job Title">Job Title</em>
+          <span class="date" contenteditable="true" data-single-line data-placeholder="Start – End">Start – End</span>
+        </div>
+        <ul class="bullets">
+          <li contenteditable="true" data-placeholder="Describe an accomplishment...">Describe an accomplishment...</li>
+        </ul>
+      </div>
+    </div>
+    <button class="add-btn" type="button" data-template="tpl-experience" data-section="experience">+ Add experience</button>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2 contenteditable="true" data-single-line data-placeholder="Section Title">Projects</h2>
+      <div class="section-controls">
+        <button class="move-up-btn" type="button" title="Move section up">↑</button>
+        <button class="move-down-btn" type="button" title="Move section down">↓</button>
+        <button class="duplicate-section-btn" type="button" title="Duplicate section">⧉</button>
+        <button class="remove-section-btn" type="button" title="Delete section">×</button>
+      </div>
+    </div>
+    <div class="entries" data-section="projects">
+      <div class="entry">
+        <button class="remove-btn" type="button" title="Remove entry">×</button>
+        <div class="entry-row">
+          <strong contenteditable="true" data-single-line data-placeholder="Project Name">Project Name</strong>
+          <span class="date" contenteditable="true" data-single-line data-placeholder="Start – End">Start – End</span>
+        </div>
+        <div class="entry-sub" contenteditable="true" data-placeholder="A short description of the project">A short description of the project</div>
+      </div>
+    </div>
+    <button class="add-btn" type="button" data-template="tpl-project" data-section="projects">+ Add project</button>
+  </section>
+
+  <p class="footer-note" contenteditable="true" data-single-line data-placeholder="References available upon request">References available upon request</p>
+
+</main>
+
+<!-- blank templates cloned by the "+ Add" buttons -->
+<template id="tpl-education">
+  <div class="entry">
+    <button class="remove-btn" type="button" title="Remove entry">×</button>
+    <div class="entry-row">
+      <strong contenteditable="true" data-single-line data-placeholder="School Name"></strong>
+      <span class="date" contenteditable="true" data-single-line data-placeholder="Month Year"></span>
+    </div>
+    <div class="entry-sub" contenteditable="true" data-single-line data-placeholder="Degree, Major"></div>
+  </div>
+</template>
+
+<template id="tpl-skill">
+  <div class="entry skill-entry">
+    <button class="remove-btn" type="button" title="Remove line">×</button>
+    <strong contenteditable="true" data-single-line data-placeholder="Category"></strong>
+    <span contenteditable="true" data-single-line data-placeholder="Skill, Skill, Skill"></span>
+  </div>
+</template>
+
+<template id="tpl-experience">
+  <div class="entry">
+    <button class="remove-btn" type="button" title="Remove entry">×</button>
+    <div class="entry-row">
+      <strong contenteditable="true" data-single-line data-placeholder="Company Name"></strong>
+      <span class="date" contenteditable="true" data-single-line data-placeholder="City, ST"></span>
+    </div>
+    <div class="entry-row">
+      <em contenteditable="true" data-single-line data-placeholder="Job Title"></em>
+      <span class="date" contenteditable="true" data-single-line data-placeholder="Start – End"></span>
+    </div>
+    <ul class="bullets">
+      <li contenteditable="true" data-placeholder="Describe an accomplishment..."></li>
+    </ul>
+  </div>
+</template>
+
+<template id="tpl-project">
+  <div class="entry">
+    <button class="remove-btn" type="button" title="Remove entry">×</button>
+    <div class="entry-row">
+      <strong contenteditable="true" data-single-line data-placeholder="Project Name"></strong>
+      <span class="date" contenteditable="true" data-single-line data-placeholder="Start – End"></span>
+    </div>
+    <div class="entry-sub" contenteditable="true" data-placeholder="A short description of the project"></div>
+  </div>
+</template>
+
+<script src="app.js"></script>
+</body>
 </html>
