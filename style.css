@@ -32,6 +32,22 @@
   --header-color: #ffffff;
 }
 
+[data-theme="dark"] {
+  --paper-bg: #1c1c1e;
+  --text: #e8e8ea;
+  --muted: #9a9a9e;
+  --rule: #3a3a3d;
+  --accent: #5b9bff;
+}
+
+/* print always goes to paper, regardless of the on-screen theme */
+html.printing {
+  --paper-bg: #ffffff;
+  --text: #1a1a1a;
+  --muted: #666666;
+  --rule: #cccccc;
+}
+
 /* ---------- base layout ---------- */
 * { box-sizing: border-box; }
 
@@ -52,7 +68,7 @@ body {
   gap: 1rem;
   padding: 0.6rem 1rem;
   background: var(--paper-bg);
-  color: #444;
+  color: var(--muted);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
@@ -75,9 +91,9 @@ body {
   font: inherit;
   padding: 0.35rem 0.7rem;
   border-radius: 6px;
-  border: 1px solid #ccc;
-  background: #fff;
-  color: #333;
+  border: 1px solid var(--rule);
+  background: var(--paper-bg);
+  color: var(--text);
   cursor: pointer;
 }
 
@@ -166,8 +182,8 @@ body {
   font-size: 12px;
   border: 1px solid var(--rule);
   border-radius: 4px;
-  background: #fff;
-  color: #888;
+  background: var(--paper-bg);
+  color: var(--muted);
   cursor: pointer;
 }
 .section-controls button:hover { background: rgba(37, 99, 235, 0.08); color: var(--accent); border-color: var(--accent); }
@@ -230,8 +246,8 @@ body {
   padding: 0;
   border-radius: 50%;
   border: 1px solid var(--rule);
-  background: #fff;
-  color: #888;
+  background: var(--paper-bg);
+  color: var(--muted);
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.15s;
