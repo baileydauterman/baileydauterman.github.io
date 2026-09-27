@@ -35,6 +35,58 @@
     else resume.append(control);
   };
 
+  // ---------- storage ----------
+  // localStorage gives each site roughly 5 MB, and checkpoints (full copies of the
+  // resume) are what fill it. When a write doesn't fit, the oldest checkpoints are
+  // given up, a tenth at a time, until it does. Only when there's nothing left to
+  // drop does a write fail, and then visibly, never silently.
+  const CHECKPOINTS_KEY = "resume-builder:checkpoints";
+  const storageWarning = document.getElementById("storage-warning");
+
+  const loadCheckpoints = () => {
+    try {
+      return JSON.parse(localStorage.getItem(CHECKPOINTS_KEY)) || [];
+    } catch {
+      return [];
+    }
+  };
+
+  const dropOldest = (list) => list.splice(0, Math.max(1, Math.ceil(list.length / 10)));
+
+  const storageFull = () => {
+    storageWarning.hidden = false;
+    return false;
+  };
+
+  // trims `list` in place if it has to
+  const saveCheckpoints = (list) => {
+    for (;;) {
+      try {
+        localStorage.setItem(CHECKPOINTS_KEY, JSON.stringify(list));
+        return true;
+      } catch {
+        if (list.length === 0) return storageFull();
+        dropOldest(list);
+      }
+    }
+  };
+
+  const saveResumeContent = (html) => {
+    for (;;) {
+      try {
+        localStorage.setItem(RESUME_KEY, html);
+        storageWarning.hidden = true;
+        return true;
+      } catch {
+        const list = loadCheckpoints();
+        if (list.length === 0) return storageFull();
+        dropOldest(list);
+        // if even the smaller list can't be written, nothing was freed; retrying would loop forever
+        if (!saveCheckpoints(list)) return storageFull();
+      }
+    }
+  };
+
   // ---------- persistence ----------
   const saved = localStorage.getItem(RESUME_KEY);
   if (saved) resume.innerHTML = saved;
@@ -68,7 +120,7 @@
     historyIndex = index;
     resume.innerHTML = history[historyIndex];
     ensureAddSectionControl();
-    localStorage.setItem(RESUME_KEY, resume.innerHTML);
+    saveResumeContent(resume.innerHTML);
     updateUndoRedoButtons();
   };
 
@@ -87,7 +139,7 @@
 
   let saveTimer;
   const save = () => {
-    localStorage.setItem(RESUME_KEY, resume.innerHTML);
+    saveResumeContent(resume.innerHTML);
     pushHistory();
   };
   const saveSoon = () => {
@@ -97,22 +149,12 @@
   resume.addEventListener("input", saveSoon);
 
   // ---------- checkpoints: named, persistent save points (separate from the in-memory undo stack) ----------
-  const CHECKPOINTS_KEY = "resume-builder:checkpoints";
   const MAX_CHECKPOINTS = 200;
 
   const historyBtn = document.getElementById("history-btn");
   const historyPanel = document.getElementById("history-panel");
   const historyBackdrop = document.getElementById("history-backdrop");
   const checkpointList = document.getElementById("checkpoint-list");
-
-  const loadCheckpoints = () => {
-    try {
-      return JSON.parse(localStorage.getItem(CHECKPOINTS_KEY)) || [];
-    } catch {
-      return [];
-    }
-  };
-  const saveCheckpoints = (list) => localStorage.setItem(CHECKPOINTS_KEY, JSON.stringify(list));
 
   const formatTimestamp = (ts) =>
     new Date(ts).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
@@ -319,6 +361,20 @@
     applyTheme(themeSelect.value);
   });
 
+  // ---------- density: "normal" or "compact" (see [data-density] in style.css) ----------
+  const DENSITY_KEY = "resume-builder:density";
+  const compactToggle = document.getElementById("compact-toggle");
+  const applyDensity = (density) => {
+    document.documentElement.dataset.density = density === "compact" ? "compact" : "normal";
+    compactToggle.checked = density === "compact";
+  };
+  applyDensity(localStorage.getItem(DENSITY_KEY));
+  compactToggle.addEventListener("change", () => {
+    const density = compactToggle.checked ? "compact" : "normal";
+    localStorage.setItem(DENSITY_KEY, density);
+    applyDensity(density);
+  });
+
   // ---------- share: export/import the resume as a pasteable code ----------
   // code = "RESUME1:" + base64(gzip(JSON {v, theme, html}))
   const SHARE_PREFIX = "RESUME1:";
@@ -342,7 +398,17 @@
   const shareError = (message) => Object.assign(new Error(message), { name: "ShareCodeError" });
 
   const encodeShareCode = async () =>
-    SHARE_PREFIX + toBase64(await gzip(JSON.stringify({ v: 1, theme: themeSelect.value, html: resume.innerHTML })));
+    SHARE_PREFIX +
+    toBase64(
+      await gzip(
+        JSON.stringify({
+          v: 1,
+          theme: themeSelect.value,
+          density: document.documentElement.dataset.density,
+          html: resume.innerHTML,
+        })
+      )
+    );
 
   const decodeShareCode = async (code) => {
     const compact = code.replace(/\s+/g, ""); // chat apps like to wrap long lines
@@ -401,17 +467,27 @@
       }
     );
 
+  // shared by import and backup restore; the current version goes to History first
+  // theme/density only apply when valid; codes and backups made before density existed leave it as is
+  const replaceResume = (html, theme, density) => {
+    addCheckpointIfChanged();
+    resume.replaceChildren(...sanitizeResumeHtml(html));
+    ensureAddSectionControl();
+    if ([...themeSelect.options].some((o) => o.value === theme)) {
+      localStorage.setItem(THEME_KEY, theme);
+      applyTheme(theme);
+    }
+    if (density === "compact" || density === "normal") {
+      localStorage.setItem(DENSITY_KEY, density);
+      applyDensity(density);
+    }
+    save();
+  };
+
   const importResume = async () => {
     try {
       const data = await decodeShareCode(importCode.value);
-      addCheckpointIfChanged(); // current version stays recoverable from History
-      resume.replaceChildren(...sanitizeResumeHtml(data.html));
-      ensureAddSectionControl();
-      if ([...themeSelect.options].some((o) => o.value === data.theme)) {
-        localStorage.setItem(THEME_KEY, data.theme);
-        applyTheme(data.theme);
-      }
-      save();
+      replaceResume(data.html, data.theme, data.density);
       importCode.value = "";
       shareStatus.textContent = "Imported. Your previous version was saved to History.";
     } catch (err) {
@@ -420,12 +496,96 @@
     }
   };
 
-  // clicks on the ::backdrop land on the <dialog> itself (content lives in .share-body)
-  shareDialog.addEventListener("click", (e) => {
-    if (e.target === shareDialog) shareDialog.close();
+  // ---------- backup file: the resume, its theme, and every checkpoint ----------
+  const MAX_BACKUP_BYTES = 20_000_000;
+  const restoreFileInput = document.getElementById("restore-backup-file");
+
+  const downloadBackup = () => {
+    const backup = {
+      app: "resume-builder",
+      v: 1,
+      savedAt: new Date().toISOString(),
+      theme: themeSelect.value,
+      density: document.documentElement.dataset.density,
+      content: resume.innerHTML,
+      checkpoints: loadCheckpoints(),
+    };
+    const url = URL.createObjectURL(new Blob([JSON.stringify(backup)], { type: "application/json" }));
+    const link = Object.assign(document.createElement("a"), {
+      href: url,
+      download: `resume-backup-${backup.savedAt.slice(0, 10)}.json`,
+    });
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    shareStatus.textContent = "Backup downloaded. Keep the file somewhere safe.";
+  };
+
+  const sanitizeToString = (html) => {
+    const holder = document.createElement("div");
+    holder.append(...sanitizeResumeHtml(html));
+    return holder.innerHTML;
+  };
+
+  // A backup file can be handed over just like a share code, so everything in it
+  // (the resume and every checkpoint) goes through the same sanitizer.
+  const restoreBackup = async (file) => {
+    try {
+      if (file.size > MAX_BACKUP_BYTES) throw shareError("That file is too large to be a resume backup.");
+      let data;
+      try {
+        data = JSON.parse(await file.text());
+      } catch {
+        throw shareError("That file isn't a resume backup.");
+      }
+      if (data?.app !== "resume-builder" || typeof data.content !== "string" || !Array.isArray(data.checkpoints)) {
+        throw shareError("That file isn't a resume backup.");
+      }
+      if (data.v !== 1) throw shareError("That backup is from an unsupported version.");
+      if (data.content.length > MAX_IMPORT_CHARS) throw shareError("That resume is too large to restore.");
+
+      const incoming = data.checkpoints
+        .filter((c) => typeof c?.id === "string" && typeof c.label === "string" && typeof c.html === "string")
+        .map((c) => ({ id: c.id, label: c.label, html: sanitizeToString(c.html) }));
+
+      replaceResume(data.content, data.theme, data.density);
+      // merged, not replaced, so nothing already in History is lost
+      const byId = new Map([...loadCheckpoints(), ...incoming].map((c) => [c.id, c]));
+      saveCheckpoints([...byId.values()].sort((a, b) => a.id.localeCompare(b.id)).slice(-MAX_CHECKPOINTS));
+
+      const when = Date.parse(data.savedAt);
+      shareStatus.textContent = `Restored the backup${when ? ` from ${formatTimestamp(when)}` : ""}. Your previous version was saved to History.`;
+    } catch (err) {
+      shareStatus.textContent = err.name === "ShareCodeError" ? err.message : "That backup couldn't be restored.";
+    }
+  };
+
+  restoreFileInput.addEventListener("change", () => {
+    const [file] = restoreFileInput.files;
+    restoreFileInput.value = ""; // so picking the same file again still fires "change"
+    if (file) restoreBackup(file);
   });
 
-  // ponytail: runnable check for the import sanitizer — open index.html?selftest, no console errors = pass
+  // ---------- reset: an in-page dialog, since the browser can block native confirm() popups ----------
+  const resetDialog = document.getElementById("reset-dialog");
+  resetDialog.addEventListener("close", () => {
+    if (resetDialog.returnValue !== "confirm") return;
+    clearTimeout(saveTimer);
+    addCheckpointIfChanged(); // an accidental reset is recoverable from History
+    localStorage.removeItem(RESUME_KEY);
+    location.reload();
+  });
+
+  // clicks on a dialog's ::backdrop land on the <dialog> itself (content lives in .dialog-body)
+  for (const dialog of [shareDialog, resetDialog]) {
+    dialog.addEventListener("click", (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+  }
+
+  // ponytail: runnable checks for the import sanitizer and storage-full handling —
+  // open index.html?selftest, no console errors = pass
   if (new URLSearchParams(location.search).has("selftest")) {
     const clean = (html) => {
       const d = document.createElement("div");
@@ -445,7 +605,40 @@
       clean('<span contenteditable="plaintext-only" id="tpl-experience">x</span>') === "<span>x</span>",
       "unexpected contenteditable value and ids stripped"
     );
-    console.log("sanitizer selftest finished");
+    // storage full: fake a 50k-char quota; the oldest checkpoints must be given up so the
+    // resume still saves, and when even that isn't enough it must warn, not fail silently
+    const realSetItem = Storage.prototype.setItem;
+    const stored = { ...localStorage };
+    try {
+      localStorage.clear();
+      Storage.prototype.setItem = function (key, value) {
+        const others = Object.keys(this)
+          .filter((k) => k !== key)
+          .reduce((n, k) => n + k.length + this.getItem(k).length, 0);
+        if (others + key.length + String(value).length > 50_000) throw new DOMException("full", "QuotaExceededError");
+        realSetItem.call(this, key, value);
+      };
+      saveCheckpoints(Array.from({ length: 10 }, (_, i) => ({ id: `t${i}`, label: "t", html: "x".repeat(4_000) })));
+      const savedOk = saveResumeContent("y".repeat(20_000));
+      const left = loadCheckpoints();
+      console.assert(
+        savedOk && left.length > 0 && left.length < 10 && left[0].id !== "t0",
+        "oldest checkpoints dropped so the resume still saves"
+      );
+      console.assert(!saveResumeContent("z".repeat(60_000)) && !storageWarning.hidden, "warns when it can't save at all");
+      saveCheckpoints(Array.from({ length: 3 }, (_, i) => ({ id: `u${i}`, label: "u", html: "x" })));
+      Storage.prototype.setItem = () => {
+        throw new DOMException("disabled", "QuotaExceededError");
+      };
+      console.assert(saveResumeContent("a") === false, "gives up (no infinite loop) when every write fails");
+    } finally {
+      Storage.prototype.setItem = realSetItem;
+      localStorage.clear();
+      for (const [key, value] of Object.entries(stored)) localStorage.setItem(key, value);
+      storageWarning.hidden = true;
+    }
+
+    console.log("selftest finished");
   }
 
   // ---------- single-line fields: Enter shouldn't insert a line break ----------
@@ -592,6 +785,16 @@
       return;
     }
 
+    if (e.target.id === "download-backup-btn" || e.target.id === "storage-backup-btn") {
+      downloadBackup();
+      return;
+    }
+
+    if (e.target.id === "restore-backup-btn") {
+      restoreFileInput.click();
+      return;
+    }
+
     if (e.target.id === "import-btn") {
       importResume();
       return;
@@ -664,10 +867,8 @@
     }
 
     if (e.target.id === "reset-btn") {
-      if (confirm("Clear all resume content and start over?")) {
-        localStorage.removeItem(RESUME_KEY);
-        location.reload();
-      }
+      resetDialog.returnValue = ""; // otherwise Escape would reuse the last button's value
+      resetDialog.showModal();
     }
   });
 

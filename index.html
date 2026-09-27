@@ -18,36 +18,76 @@
       <option value="bold">Bold</option>
       <option value="dark">Dark</option>
     </select>
+    <label class="toolbar-check" title="Smaller text and tighter spacing, to help fit one page">
+      <input id="compact-toggle" type="checkbox"> Compact
+    </label>
   </div>
   <div class="toolbar-actions">
-    <button id="undo-btn" type="button" title="Undo (Ctrl+Z)">Undo</button>
-    <button id="redo-btn" type="button" title="Redo (Ctrl+Shift+Z)">Redo</button>
-    <button id="reset-btn" type="button">Reset</button>
-    <button id="history-btn" type="button">History</button>
-    <button id="share-btn" type="button">Share</button>
+    <div class="toolbar-group">
+      <button id="undo-btn" class="icon-btn" type="button" title="Undo (Ctrl/Cmd+Z)" aria-label="Undo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>
+      </button>
+      <button id="redo-btn" class="icon-btn" type="button" title="Redo (Ctrl/Cmd+Shift+Z)" aria-label="Redo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 14 5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h3"/></svg>
+      </button>
+    </div>
+    <div class="toolbar-group">
+      <button id="history-btn" class="icon-btn" type="button" title="History" aria-label="History">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      </button>
+      <button id="share-btn" class="icon-btn" type="button" title="Share &amp; backup" aria-label="Share and backup">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3"/><path d="m7 8 5-5 5 5"/><path d="M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>
+      </button>
+      <button id="reset-btn" class="icon-btn" type="button" title="Start over" aria-label="Start over">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="m6 7 1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12"/><path d="M10 11v6M14 11v6"/></svg>
+      </button>
+    </div>
     <button id="print-btn" type="button" class="primary">Print / Save PDF</button>
+  </div>
+  <div id="storage-warning" class="storage-warning" role="alert" hidden>
+    <span>Your browser's storage is full, so your latest changes aren't being saved.</span>
+    <button id="storage-backup-btn" class="dialog-action" type="button">Download a backup</button>
   </div>
 </div>
 
-<dialog id="share-dialog" class="share-dialog">
-  <div class="share-body">
-    <div class="share-header">
-      <h3>Share</h3>
+<dialog id="share-dialog" class="dialog">
+  <div class="dialog-body">
+    <div class="dialog-header">
+      <h3>Share &amp; backup</h3>
       <button id="share-close-btn" type="button" title="Close">×</button>
     </div>
 
     <h4>Send your resume</h4>
-    <p class="share-hint">Copy this code and send it to someone. They can paste it under Import on their end.</p>
+    <p class="dialog-hint">Copy this code and send it to someone. They can paste it under Import on their end.</p>
     <textarea id="export-code" rows="4" readonly></textarea>
-    <button id="copy-export-btn" class="share-action" type="button">Copy code</button>
+    <button id="copy-export-btn" class="dialog-action" type="button">Copy code</button>
 
     <h4>Import a resume</h4>
-    <p class="share-hint">Paste a code you received. It replaces your current resume — your current version is saved to History first.</p>
+    <p class="dialog-hint">Paste a code you received. It replaces your current resume — your current version is saved to History first.</p>
     <textarea id="import-code" rows="4" placeholder="Paste code here"></textarea>
-    <button id="import-btn" class="share-action" type="button">Import</button>
+    <button id="import-btn" class="dialog-action" type="button">Import</button>
 
-    <p id="share-status" class="share-status" role="status"></p>
+    <h4>Backup</h4>
+    <p class="dialog-hint">Your resume only lives in this browser, and clearing browsing data erases it. Download a backup file (it includes History) and keep it somewhere safe.</p>
+    <div class="dialog-row">
+      <button id="download-backup-btn" class="dialog-action" type="button">Download backup</button>
+      <button id="restore-backup-btn" class="dialog-action" type="button">Restore from file…</button>
+      <input id="restore-backup-file" type="file" accept=".json,application/json" hidden>
+    </div>
+
+    <p id="share-status" class="dialog-status" role="status"></p>
   </div>
+</dialog>
+
+<dialog id="reset-dialog" class="dialog">
+  <form method="dialog" class="dialog-body">
+    <h3>Start over?</h3>
+    <p class="dialog-hint">This clears your resume back to the blank template. Your current version is saved to History first, so you can get it back.</p>
+    <div class="dialog-row">
+      <button value="confirm" class="dialog-action danger">Clear resume</button>
+      <button value="cancel" class="dialog-action" autofocus>Cancel</button>
+    </div>
+  </form>
 </dialog>
 
 <div id="history-backdrop" class="history-backdrop" hidden></div>
