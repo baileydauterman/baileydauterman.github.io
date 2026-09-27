@@ -60,6 +60,7 @@
 
   document.addEventListener("keydown", (e) => {
     if (!(e.metaKey || e.ctrlKey) || e.key.toLowerCase() !== "z") return;
+    if (e.target.matches("textarea, input")) return; // native undo inside form fields, not the resume
     e.preventDefault();
     if (e.shiftKey) {
       if (historyIndex < history.length - 1) restoreHistory(historyIndex + 1);
@@ -302,6 +303,134 @@
     applyTheme(themeSelect.value);
   });
 
+  // ---------- share: export/import the resume as a pasteable code ----------
+  // code = "RESUME1:" + base64(gzip(JSON {v, theme, html}))
+  const SHARE_PREFIX = "RESUME1:";
+  const MAX_IMPORT_CHARS = 1_000_000;
+  const shareDialog = document.getElementById("share-dialog");
+  const exportCode = document.getElementById("export-code");
+  const importCode = document.getElementById("import-code");
+  const shareStatus = document.getElementById("share-status");
+
+  const toBase64 = (bytes) => {
+    let s = "";
+    for (const b of bytes) s += String.fromCharCode(b);
+    return btoa(s);
+  };
+  const fromBase64 = (b64) => Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+  const gzip = async (text) =>
+    new Uint8Array(await new Response(new Blob([text]).stream().pipeThrough(new CompressionStream("gzip"))).arrayBuffer());
+  const gunzip = (bytes) =>
+    new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"))).text();
+
+  const shareError = (message) => Object.assign(new Error(message), { name: "ShareCodeError" });
+
+  const encodeShareCode = async () =>
+    SHARE_PREFIX + toBase64(await gzip(JSON.stringify({ v: 1, theme: themeSelect.value, html: resume.innerHTML })));
+
+  const decodeShareCode = async (code) => {
+    const compact = code.replace(/\s+/g, ""); // chat apps like to wrap long lines
+    if (!compact.startsWith(SHARE_PREFIX)) throw shareError("That doesn't look like a resume code.");
+    const data = JSON.parse(await gunzip(fromBase64(compact.slice(SHARE_PREFIX.length))));
+    if (data?.v !== 1 || typeof data.html !== "string") throw shareError("That code is from an unsupported version.");
+    if (data.html.length > MAX_IMPORT_CHARS) throw shareError("That resume is too large to import.");
+    return data;
+  };
+
+  // Imported HTML comes from someone else and gets rendered + persisted, so it's
+  // rebuilt from an allowlist of exactly what this editor (and native
+  // contenteditable shortcuts like Cmd+B) produce. Everything else is dropped:
+  // unknown elements entirely, and any attribute not listed (onerror, style, href, ...).
+  const ALLOWED_TAGS = new Set([
+    "HEADER", "SECTION", "H1", "H2", "DIV", "P", "SPAN", "STRONG", "EM", "B", "I", "U", "S", "STRIKE",
+    "UL", "LI", "BR", "BUTTON", "SELECT", "OPTION",
+  ]);
+  const ALLOWED_ATTRS = new Set([
+    "class", "contenteditable", "data-single-line", "data-placeholder", "data-section", "data-template",
+    "type", "title", "value", "id",
+  ]);
+  const ALLOWED_IDS = new Set(["section-type-select", "add-section-btn"]);
+
+  const sanitizeResumeHtml = (html) => {
+    const doc = new DOMParser().parseFromString(html, "text/html"); // inert: nothing runs or loads
+    for (const el of [...doc.body.querySelectorAll("*")]) {
+      if (!ALLOWED_TAGS.has(el.tagName)) {
+        el.remove();
+        continue;
+      }
+      for (const { name, value } of [...el.attributes]) {
+        const allowed =
+          ALLOWED_ATTRS.has(name) &&
+          (name !== "id" || ALLOWED_IDS.has(value)) &&
+          (name !== "contenteditable" || value === "true");
+        if (!allowed) el.removeAttribute(name);
+      }
+    }
+    return [...doc.body.childNodes];
+  };
+
+  const openShareDialog = async () => {
+    shareStatus.textContent = "";
+    exportCode.value = "Generating…";
+    shareDialog.showModal();
+    exportCode.value = await encodeShareCode();
+  };
+
+  const copyExportCode = () =>
+    navigator.clipboard.writeText(exportCode.value).then(
+      () => (shareStatus.textContent = "Copied — paste it anywhere to send it."),
+      () => {
+        exportCode.select();
+        shareStatus.textContent = "Couldn't copy automatically. The code is selected — press Ctrl/Cmd+C.";
+      }
+    );
+
+  const importResume = async () => {
+    try {
+      const data = await decodeShareCode(importCode.value);
+      addCheckpointIfChanged(); // current version stays recoverable from History
+      resume.replaceChildren(...sanitizeResumeHtml(data.html));
+      if ([...themeSelect.options].some((o) => o.value === data.theme)) {
+        localStorage.setItem(THEME_KEY, data.theme);
+        applyTheme(data.theme);
+      }
+      save();
+      importCode.value = "";
+      shareStatus.textContent = "Imported. Your previous version was saved to History.";
+    } catch (err) {
+      shareStatus.textContent =
+        err.name === "ShareCodeError" ? err.message : "That code couldn't be read — make sure you copied all of it.";
+    }
+  };
+
+  // clicks on the ::backdrop land on the <dialog> itself (content lives in .share-body)
+  shareDialog.addEventListener("click", (e) => {
+    if (e.target === shareDialog) shareDialog.close();
+  });
+
+  // ponytail: runnable check for the import sanitizer — open index.html?selftest, no console errors = pass
+  if (new URLSearchParams(location.search).has("selftest")) {
+    const clean = (html) => {
+      const d = document.createElement("div");
+      d.append(...sanitizeResumeHtml(html));
+      return d.innerHTML;
+    };
+    // trim: the parser drops whitespace before the first element, nothing else may change
+    console.assert(clean(resume.innerHTML).trim() === resume.innerHTML.trim(), "editor's own markup survives unchanged");
+    console.assert(clean('<img src=x onerror="alert(1)">') === "", "img dropped");
+    console.assert(clean("<script>alert(1)</script>") === "", "script dropped");
+    console.assert(clean('<svg><a href="javascript:alert(1)">x</a></svg>') === "", "svg dropped");
+    console.assert(
+      clean('<h1 onclick="x()" style="color:red" contenteditable="true">Hi</h1>') === '<h1 contenteditable="true">Hi</h1>',
+      "handlers and styles stripped"
+    );
+    console.assert(
+      clean('<span contenteditable="plaintext-only" id="tpl-experience">x</span>') === "<span>x</span>",
+      "unexpected contenteditable value and ids stripped"
+    );
+    console.log("sanitizer selftest finished");
+  }
+
   // ---------- single-line fields: Enter shouldn't insert a line break ----------
   resume.addEventListener("keydown", (e) => {
     if (e.target.matches("[data-single-line]") && e.key === "Enter") {
@@ -428,6 +557,26 @@
 
     if (e.target.id === "history-btn") {
       openHistoryPanel();
+      return;
+    }
+
+    if (e.target.id === "share-btn") {
+      openShareDialog();
+      return;
+    }
+
+    if (e.target.id === "share-close-btn") {
+      shareDialog.close();
+      return;
+    }
+
+    if (e.target.id === "copy-export-btn") {
+      copyExportCode();
+      return;
+    }
+
+    if (e.target.id === "import-btn") {
+      importResume();
       return;
     }
 

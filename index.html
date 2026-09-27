@@ -24,9 +24,31 @@
     <button id="redo-btn" type="button" title="Redo (Ctrl+Shift+Z)">Redo</button>
     <button id="reset-btn" type="button">Reset</button>
     <button id="history-btn" type="button">History</button>
+    <button id="share-btn" type="button">Share</button>
     <button id="print-btn" type="button" class="primary">Print / Save PDF</button>
   </div>
 </div>
+
+<dialog id="share-dialog" class="share-dialog">
+  <div class="share-body">
+    <div class="share-header">
+      <h3>Share</h3>
+      <button id="share-close-btn" type="button" title="Close">×</button>
+    </div>
+
+    <h4>Send your resume</h4>
+    <p class="share-hint">Copy this code and send it to someone. They can paste it under Import on their end.</p>
+    <textarea id="export-code" rows="4" readonly></textarea>
+    <button id="copy-export-btn" class="share-action" type="button">Copy code</button>
+
+    <h4>Import a resume</h4>
+    <p class="share-hint">Paste a code you received. It replaces your current resume — your current version is saved to History first.</p>
+    <textarea id="import-code" rows="4" placeholder="Paste code here"></textarea>
+    <button id="import-btn" class="share-action" type="button">Import</button>
+
+    <p id="share-status" class="share-status" role="status"></p>
+  </div>
+</dialog>
 
 <div id="history-backdrop" class="history-backdrop" hidden></div>
 <div id="history-panel" class="history-panel" hidden>
