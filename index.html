@@ -20,9 +20,22 @@
     </select>
   </div>
   <div class="toolbar-actions">
+    <button id="undo-btn" type="button" title="Undo (Ctrl+Z)">Undo</button>
+    <button id="redo-btn" type="button" title="Redo (Ctrl+Shift+Z)">Redo</button>
     <button id="reset-btn" type="button">Reset</button>
+    <button id="history-btn" type="button">History</button>
     <button id="print-btn" type="button" class="primary">Print / Save PDF</button>
   </div>
+</div>
+
+<div id="history-backdrop" class="history-backdrop" hidden></div>
+<div id="history-panel" class="history-panel" hidden>
+  <div class="history-panel-header">
+    <h3>History</h3>
+    <button id="history-close-btn" type="button" title="Close">×</button>
+  </div>
+  <button id="save-checkpoint-btn" type="button">+ Save Checkpoint</button>
+  <ul id="checkpoint-list" class="checkpoint-list"></ul>
 </div>
 
 <main class="page" id="resume">
