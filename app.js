@@ -21,9 +21,24 @@
   window.addEventListener("beforeprint", () => document.documentElement.classList.add("printing"));
   window.addEventListener("afterprint", () => document.documentElement.classList.remove("printing"));
 
+  // ---------- "+ Add Section" control ----------
+  // It has to sit inside #resume (between the last section and the footer note),
+  // so it rides along in every saved snapshot. Snapshots saved before the control
+  // existed don't contain it, so it's rebuilt from its template whenever resume
+  // content is replaced, instead of trusting whatever snapshot came back.
+  const addSectionTemplate = document.getElementById("tpl-add-section");
+  const ensureAddSectionControl = () => {
+    resume.querySelectorAll(".add-section").forEach((el) => el.remove());
+    const control = addSectionTemplate.content.firstElementChild.cloneNode(true);
+    const footer = resume.querySelector(":scope > .footer-note");
+    if (footer) footer.before(control);
+    else resume.append(control);
+  };
+
   // ---------- persistence ----------
   const saved = localStorage.getItem(RESUME_KEY);
   if (saved) resume.innerHTML = saved;
+  ensureAddSectionControl();
 
   // ---------- undo / redo ----------
   // a snapshot-per-pause history: each debounced typing pause or discrete button
@@ -52,6 +67,7 @@
   const restoreHistory = (index) => {
     historyIndex = index;
     resume.innerHTML = history[historyIndex];
+    ensureAddSectionControl();
     localStorage.setItem(RESUME_KEY, resume.innerHTML);
     updateUndoRedoButtons();
   };
@@ -390,6 +406,7 @@
       const data = await decodeShareCode(importCode.value);
       addCheckpointIfChanged(); // current version stays recoverable from History
       resume.replaceChildren(...sanitizeResumeHtml(data.html));
+      ensureAddSectionControl();
       if ([...themeSelect.options].some((o) => o.value === data.theme)) {
         localStorage.setItem(THEME_KEY, data.theme);
         applyTheme(data.theme);
@@ -616,6 +633,7 @@
       const cp = loadCheckpoints().find((c) => c.id === id);
       if (cp) {
         resume.innerHTML = cp.html;
+        ensureAddSectionControl();
         save();
         closeHistoryPanel();
       }

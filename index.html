@@ -167,16 +167,6 @@
     <button class="add-btn" type="button" data-template="tpl-project" data-section="projects">+ Add project</button>
   </section>
 
-  <div class="add-section">
-    <select id="section-type-select">
-      <option value="education">Education</option>
-      <option value="skills">Skills</option>
-      <option value="experience">Experience</option>
-      <option value="projects">Project</option>
-    </select>
-    <button id="add-section-btn" class="add-section-btn" type="button">+ Add Section</button>
-  </div>
-
   <p class="footer-note" contenteditable="true" data-single-line data-placeholder="References available upon request"></p>
 
 </main>
@@ -226,6 +216,19 @@
       <span class="date" contenteditable="true" data-single-line data-placeholder="Start – End"></span>
     </div>
     <div class="entry-sub" contenteditable="true" data-placeholder="A short description of the project"></div>
+  </div>
+</template>
+
+<!-- "+ Add Section" control: inserted before the footer note by app.js, never read from saved content -->
+<template id="tpl-add-section">
+  <div class="add-section">
+    <select id="section-type-select">
+      <option value="education">Education</option>
+      <option value="skills">Skills</option>
+      <option value="experience">Experience</option>
+      <option value="projects">Project</option>
+    </select>
+    <button id="add-section-btn" class="add-section-btn" type="button">+ Add Section</button>
   </div>
 </template>
 
